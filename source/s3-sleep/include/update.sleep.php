@@ -61,6 +61,7 @@ foreach ($new as $key => $value) {
   case 'stopDay':
   case 'stopHour':
   case 'pingIP':
+  case 'fileCheck':
   case 'outside':
     $list = explode(',', $value);
     foreach ($list as $insert) $options .= "-{$prefix[$key]} $insert ";

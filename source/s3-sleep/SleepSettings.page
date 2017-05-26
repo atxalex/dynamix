@@ -1,9 +1,9 @@
 Menu="Utilities"
 Title="Sleep Settings"
-Icon="dynamix.s3.sleep.png"
+Icon="unraid.s3.sleep.png"
 ---
 <?PHP
-/* Copyright 2016, Bergware International.
+/* Copyright 2012-2016, Bergware International.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License version 2,
@@ -16,8 +16,8 @@ Icon="dynamix.s3.sleep.png"
  */
 ?>
 <?
-$plugin = "dynamix.s3.sleep";
-$scripts = "/usr/local/emhttp/plugins/$plugin/scripts";
+$plugin = "unraid.s3.sleep";
+$scripts = "$docroot/plugins/$plugin/scripts";
 $cfg = parse_plugin_cfg($plugin);
 $sName = "s3_sleep";
 $config = "/etc/s3_sleep.conf";
@@ -109,7 +109,7 @@ $(function() {
 <input type="hidden" name="#file" value="<?=$plugin?>/<?=$plugin?>.cfg">
 <input type="hidden" name="#include" value="plugins/<?=$plugin?>/include/update.sleep.php">
 <input type="hidden" name="#config" value="<?=$config?>">
-<input type="hidden" name="#prefix" value="timeout=m&port=e&idle=N&pingIP=i&stopHour=h&stopDay=d&setWol=w&debug=D&outside=I">
+<input type="hidden" name="#prefix" value="timeout=m&port=e&idle=N&pingIP=i&fileCheck=f&stopHour=h&stopDay=d&setWol=w&debug=D&outside=I">
 <input type="hidden" name="#folder" value="<?=$scripts?>">
 <span class="bitstream" style="float:right;margin-right:12px"><?=exec("$scripts/$sName -V")?></span>
 
@@ -208,6 +208,11 @@ Wait for device inactivity (IP address):
 > Select whether external devices need to be monitored and non-responding as a sleep or shutdown condition.
 >
 > External devices are given by their IP address, use a comma to separate multiple IP addresses. As long as one of the external devices responds to a ping then sleep/shutdown won't be invoked.
+
+Check file for inactivity (filename to check):
+: <input type="text" name="fileCheck" maxlength="200" value="<?=$cfg['fileCheck']?>" placeholder="no file">
+
+> Check external file for activity signal. 0 is inactivity, >0 is activity
 
 Wait for user login inactivity:
 : <select name="login" size="1">

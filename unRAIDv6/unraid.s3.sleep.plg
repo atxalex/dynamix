@@ -1,25 +1,29 @@
 <?xml version='1.0' standalone='yes'?>
 
 <!DOCTYPE PLUGIN [
-<!ENTITY name      "dynamix.s3.sleep">
-<!ENTITY author    "Bergware">
-<!ENTITY version   "2018.02.04">
+<!ENTITY name      "unraid.s3.sleep">
+<!ENTITY author    "atxalex">
+<!ENTITY version   "2018.07.04">
 <!ENTITY launch    "Settings/SleepSettings">
-<!ENTITY pluginURL "https://raw.githubusercontent.com/bergware/dynamix/master/unRAIDv6/&name;.plg">
+<!ENTITY pluginURL "https://raw.githubusercontent.com/atxalex/dynamix/master/unRAIDv6/&name;.plg">
 <!ENTITY source    "/boot/config/plugins/&name;/&name;">
-<!ENTITY MD5       "c7f4136cd6ab5d3fd5c6ff063062424f">
+<!ENTITY MD5  "debee9402038fde462ff8ad6f70a0830">
 ]>
 
-<PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" min="6.1.9">
+<PLUGIN name="&name;" author="&author;" version="&version;" launch="&launch;" pluginURL="&pluginURL;" min="6.4.0">
 
 <CHANGES>
 ##&name;
 
+
 ###&version;
+- Added file option
+- Fixed state issue and fixed ssh code for unraid V6.4.0
+- Changed plugin to it's own project namespace and move away from original code (unmaintained?)###2018.02.04;
 - made S3_sleep script compatible with unRAID 6.4
 - fixed cache pool list
 
-###2017.05.12
+###2017.05.12;
 - revert to previous version, until proper solution is implemented.
 
 ###2017.04.28
@@ -162,7 +166,7 @@ fi
 
 <!-- SOURCE PACKAGE -->
 <FILE Name="&source;.txz" Run="upgradepkg --install-new --reinstall">
-<URL>https://raw.githubusercontent.com/bergware/dynamix/master/archive/&name;.txz</URL>
+<URL>https://raw.githubusercontent.com/atxalex/dynamix/master/archive/&name;.txz</URL>
 <MD5>&MD5;</MD5>
 </FILE>
 

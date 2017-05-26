@@ -13,15 +13,15 @@
 $docroot = $docroot ?: @$_SERVER['DOCUMENT_ROOT'] ?: '/usr/local/emhttp';
 require_once "$docroot/webGui/include/Wrappers.php";
 
-$cfg = parse_plugin_cfg("dynamix.s3.sleep");
+$cfg = parse_plugin_cfg("unraid.s3.sleep");
 
 $debug = $cfg['debug'] ? "-D {$cfg['debug']}" : "";
-$preRun = $cfg['preRun'] ? "-b $docroot/plugins/dynamix.s3.sleep/scripts/preRun" : "";
-$postRun = $cfg['postRun'] ? "-p $docroot/plugins/dynamix.s3.sleep/scripts/postRun" : "";
+$preRun = $cfg['preRun'] ? "-b $docroot/plugins/unraid.s3.sleep/scripts/preRun" : "";
+$postRun = $cfg['postRun'] ? "-p $docroot/plugins/unraid.s3.sleep/scripts/postRun" : "";
 
 // Go to sleep
 exec("echo 'Enter sleep mode'|logger --tag s3_sleep");
-exec("$docroot/plugins/dynamix.s3.sleep/scripts/s3_sleep -S $preRun $postRun $debug");
+exec("$docroot/plugins/unraid.s3.sleep/scripts/s3_sleep -S $preRun $postRun $debug");
 // Now sleeping...
 exec("echo 'Wake-up from sleep mode'|logger --tag s3_sleep");
 ?>

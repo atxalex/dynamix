@@ -15,7 +15,7 @@ function sleepNow() {
   if (typeof showNotice == 'function') showNotice('System in sleep mode');
   for (var i=0,element; element=document.querySelectorAll('input,button,select')[i]; i++) { element.disabled = true; }
   for (var i=0,link; link=document.getElementsByTagName('a')[i]; i++) { link.style.color = "gray"; } //fake disable
-  $.get('/plugins/dynamix.s3.sleep/include/SleepMode.php',function(){location=location;});
+  $.get('/plugins/unraid.s3.sleep/include/SleepMode.php',function(){location=location;});
 }
 function sleepS3() {
   if (<?=$confirm['sleep'] ? 'true' : 'false'?>) {

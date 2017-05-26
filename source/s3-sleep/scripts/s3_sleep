@@ -80,7 +80,7 @@ fi
 
 usage() {
  echo
- echo "Usage: $program [-acnRFSLlVq] [-I disk] [-N idle] [-i ip] [-d day] [-h hour] [-m time] [-t time] [-e eth] [-w wol] [-b name] [-p name] [-C case] [-D 0-4] [-ED]"
+ echo "Usage: $program [-acnRFSLlVq] [-I disk] [-N idle] [-i ip] [-d day] [-h hour] [-m time] [-t time] [-e eth] [-w wol] [-b name] [-p name] [-C case] [-D 0-4] [-ED] [-f file]"
  echo " -a          wait for array inactivity"
  echo " -c          exclude cache drive from array monitoring"
  echo " -I disk     include outside of array disk (may be repeated for other disks)"
@@ -88,6 +88,7 @@ usage() {
  echo " -N idle     set TCP idle threshold"
  echo " -R          do DHCP renewal after wake-up"
  echo " -F          force gigabit speed after wake-up"
+ echo " -f file     check file content is not 0"
  echo " -S          sleep NOW"
  echo " -i ip       IP address to ping (may be repeated as many times as desired)"
  echo " -L          check remotely logged in users (SSH)"
@@ -131,6 +132,7 @@ checkSSH=no           # check for remote login sessions (telnet or SSH)
 checkTTY=no           # check for local login sessions (if "no" allows console debugging)
 hosts=()              # do not sleep when 'hosts' are pingable
                       # example: <hosts="192.168.1.1 172.16.1.1">
+fileCheck=            # check file content is not 0
 
 # before sleep
 setWol=               # set wol options before sleep
@@ -146,7 +148,7 @@ quit_flag=no          # signal program exit
 sleepNow=no           # force immediate sleep now
 
 # options to overwrite defaults
-while getopts "acnN:i:I:d:h:m:t:e:C:w:RFqVSLlb:p:D:" opt; do
+while getopts "acnN:i:I:d:h:m:t:e:C:w:RFqVSLlb:p:D:f:" opt; do
   case $opt in
     a) checkHDD=yes ;;
     c) checkCache=no ;;
@@ -165,6 +167,7 @@ while getopts "acnN:i:I:d:h:m:t:e:C:w:RFqVSLlb:p:D:" opt; do
        esac ;;
     w) setWol=$OPTARG ;;
     R) dhcpRenew=yes ;;
+    f) fileCheck=$OPTARG ;;
     F) forceGb=yes ;;
     S) sleepNow=yes ;;
     L) checkSSH=yes ;;
@@ -272,6 +275,14 @@ IP_activity() {
   if [[ -n $result ]]; then
     log "Host activity on going: $ip"
     echo $result
+  fi
+}
+
+FILE_activity() {
+  result=
+  if [[ -n $fileCheck && $(cat $fileCheck) -gt 0 ]]; then
+    log "Stream activity on going."
+    echo '1'
   fi
 }
 
@@ -442,8 +453,8 @@ while [[ -f $lockfile ]]; do
         log "Initialize TCP activity counter"
         start=$(txrx_bytes)
       else
-        log "Check TCP/SSH/TTY/IP activity"
-        if [[ -z $(TCP_activity) && -z $(SSH_activity) && -z $(TTY_activity) && -z $(IP_activity) ]]; then
+        log "Check TCP/SSH/TTY/IP/File activity"
+        if [[ -z $(TCP_activity) && -z $(SSH_activity) && -z $(TTY_activity) && -z $(IP_activity) && -z $(FILE_activity) ]]; then
           log "Communication state is idle"
           [[ $action == sleep ]] && system_sleep || system_down
           log "System woken-up. Reset timers"
