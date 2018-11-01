@@ -70,7 +70,7 @@ foreach ($new as $key => $value) {
     if ($key[0]!='#') $options .= (isset($prefix[$key]) ? "-{$prefix[$key]} " : "")."$value ";
   break;}
 }
-$s3sleep = "/usr/local/emhttp/plugins/dynamix.s3.sleep/scripts/rc.s3sleep";
+$s3sleep = "/usr/local/emhttp/plugins/unraid.s3.sleep/scripts/rc.s3sleep";
 exec("$s3sleep stop >/dev/null");
 $options = trim($options);
 $keys['options'] = $options;
